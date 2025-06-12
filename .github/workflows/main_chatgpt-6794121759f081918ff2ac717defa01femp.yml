@@ -22,20 +22,17 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Create and start virtual environment
+      - name: Install dependencies
         run: |
           python -m venv venv
-          source venv/bin/activate
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+          ./venv/bin/pip install -r requirements.txt
 
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip -r release.zip ./
 
       - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
@@ -51,7 +48,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: python-app
 
@@ -65,3 +62,4 @@ jobs:
           app-name: 'chatgpt-6794121759f081918ff2ac717defa01femp'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_67905A723A464520B190AE6DA0FA5184 }}
+
