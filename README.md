@@ -20,8 +20,8 @@ Este proyecto tiene como objetivo desarrollar un asistente conversacional basado
 
 ## Colaboradores
 
-- [Tu nombre aquí]
-- [Agrega más colaboradores]
+- [Andres Maqueo]
+
 
 ## Licencia
 
