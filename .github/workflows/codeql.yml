@@ -1,16 +1,16 @@
-name: "CodeQL Advanced"
+name: "CodeQL Advanced Analysis"
 
 on:
   push:
-    branches: [ "principal" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "principal" ]
+    branches: [ "main" ]
   schedule:
-    - cron: '20 6 * * 6'
+    - cron: '20 6 * * 6'  # Cada sábado a las 6:20 UTC
 
 jobs:
   analyze:
-    name: Analizar (${{ matrix.language }})
+    name: Analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
 
     permissions:
@@ -23,22 +23,32 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - language: 'javascript-typescript'
-            build-mode: 'off'
+          - language: 'javascript'
+            build-mode: 'autobuild'
+          - language: 'typescript'
+            build-mode: 'autobuild'
+          - language: 'python'
+            build-mode: 'manual'
 
     steps:
-      - name: Checkout del repositorio
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Inicializar CodeQL
+      - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
-          build-mode: ${{ matrix['build-mode'] }}
+          build-mode: ${{ matrix.build-mode }}
 
-      # Paso de build omitido porque build-mode es 'off'
+      # Build solo si el modo es manual
+      - name: Manual Build (only if needed)
+        if: ${{ matrix.build-mode == 'manual' }}
+        run: |
+          echo "Running manual build for ${{ matrix.language }}"
+          # Aquí defines el build que necesites para Python, por ejemplo:
+          pip install -r requirements.txt || true
 
-      - name: Ejecutar análisis CodeQL
+      - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{ matrix.language }}"
