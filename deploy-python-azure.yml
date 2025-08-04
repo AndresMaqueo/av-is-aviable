@@ -1,5 +1,37 @@
-echo "Aquí inicia nuestro proyecto ChatGPT" > README.md
-git checkout -b chat-gpt           # Crear y cambiar a la rama "chat-gpt"
-git add README.md
-git commit -m "Añadir archivo inicial a la rama chat-gpt"
-git push origin chat-gpt           # Subir esa nueva rama al remoto
+# deploy-python-azure.yml
+# GitHub Actions workflow for deploying a Python app to Azure Web App
+
+name: Deploy Python app to Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Archive project files
+        run: zip -r release.zip . -x '*.git*'
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: release.zip
