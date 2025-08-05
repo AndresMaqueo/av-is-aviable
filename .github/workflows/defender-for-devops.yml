@@ -20,11 +20,11 @@ name: "Microsoft Defender For DevOps"
 
 on:
   push:
-    branches: [ "chat-gpt" ]  # Cambia a "main" si quieres usarlo en producción
+    branches: [ "main" ]  # Seguridad en producción
   pull_request:
-    branches: [ "chat-gpt" ]
+    branches: [ "main" ]  # PRs hacia producción
   schedule:
-    - cron: '18 3 * * 0'  # Corre todos los domingos a las 3:18 AM UTC
+    - cron: '18 3 * * 0'  # Análisis semanal, puedes ajustar la hora
 
 jobs:
   MSDO:
@@ -55,4 +55,3 @@ jobs:
         with:
           name: msdo-full-results
           path: ${{ steps.msdo.outputs.logDirectory }}
-
