@@ -20,9 +20,9 @@ name: "Microsoft Defender For DevOps"
 
 on:
   push:
-    branches: [ "chat-gpt" ]  # Cambia a "main" si quieres usarlo en producción
+    branches: [ "main" ]  # Cambiado a main para producción
   pull_request:
-    branches: [ "chat-gpt" ]
+    branches: [ "main" ]
   schedule:
     - cron: '18 3 * * 0'  # Corre todos los domingos a las 3:18 AM UTC
 
@@ -37,9 +37,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            5.0.x
-            6.0.x
+          dotnet-version: 6.0.x
 
       - name: Run Microsoft Security DevOps
         id: msdo
