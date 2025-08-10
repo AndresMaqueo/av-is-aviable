@@ -61,13 +61,16 @@ jobs:
         uses: microsoft/security-devops-action@v1.6.0
 
       - name: Upload results to GitHub Security tab
+        if: ${{ steps.msdo.outputs.sarifFile != '' }}
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{ steps.msdo.outputs.sarifFile }}
 
       - name: Upload full scan logs (optional)
+        if: ${{ steps.msdo.outputs.logDirectory != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: msdo-full-results
           path: ${{ steps.msdo.outputs.logDirectory }}
+
 
