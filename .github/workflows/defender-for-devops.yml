@@ -15,16 +15,33 @@
 # Please note this workflow does not integrate your GitHub Org with Microsoft Defender For DevOps. You have to create an integration
 # and provide permission before this can report data back to Azure.
 # Read the official documentation here: https://learn.microsoft.com/en-us/azure/defender-for-cloud/quickstart-onboard-github
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# Microsoft Security DevOps (MSDO) is a command line application which integrates static analysis tools into the development cycle.
+# MSDO installs, configures and runs the latest versions of static analysis tools
+# (including, but not limited to, SDL/security and compliance tools).
+#
+# The Microsoft Security DevOps action is currently in beta and runs on the windows-latest queue,
+# as well as Windows self hosted agents. ubuntu-latest support coming soon.
+#
+# For more information about the action , check out https://github.com/microsoft/security-devops-action
+#
+# Please note this workflow does not integrate your GitHub Org with Microsoft Defender For DevOps. You have to create an integration
+# and provide permission before this can report data back to Azure.
+# Read the official documentation here: https://learn.microsoft.com/en-us/azure/defender-for-cloud/quickstart-onboard-github
 
 name: "Microsoft Defender For DevOps"
 
 on:
   push:
-    branches: [ "main" ]  # Cambiado a main para producción
+    branches: [ "main" ]  # Seguridad en producción
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" ]  # PRs hacia producción
   schedule:
-    - cron: '18 3 * * 0'  # Corre todos los domingos a las 3:18 AM UTC
+    - cron: '18 3 * * 0'  # Análisis semanal, puedes ajustar la hora
 
 jobs:
   MSDO:
