@@ -37,11 +37,11 @@ name: "Microsoft Defender for DevOps"
 
 on:
   push:
-    branches: ["chat-gpt"]  # Change to "main" for production use
+    branches: ["main"] 
   pull_request:
-    branches: ["chat-gpt"]
+    branches: ["main"]
   schedule:
-    - cron: '18 3 * * 0'   # Runs every Sunday at 3:18 AM UTC
+    - cron: '18 3 * * 0' 
 
 jobs:
   msdo:
